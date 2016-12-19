@@ -1,21 +1,37 @@
-console.log("hi from app.js");
-
 $(function() {
-    console.log( "jQuery ready from app.js!" );
 
-    // var headers = new Headers({
-    //   'Access-Control-Allow-Origin': "*",
-    //   'Content-Type':'text/plain'
-    // });
+  var $beginQuiz = $('#beginQuiz');
+  var $question = $('#question');
+  var $answersArea = $('.answersArea');
+  var $questionCounter = $('#questionCounter');
+  var $flashMessage = $('#flashmessage');
+  var $nextQuestion = $('#nextQuestion');
 
-    fetch('https://opentdb.com/api.php?amount=4', {
-      method: 'get' 
-    }).then(function(response) {
-      console.log(response)
-    }).catch(function(err) {
+   
+  var questionCount = 0;
+  var currentQuestion = {};
+  var questions = [];
+
+  // $beginQuiz.hide();
+
+  fetch('https://opentdb.com/api.php?amount=4')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(results){
+        questions = results.results
+        console.log("question results: ", questions);
+        // $beginQuiz.show(); currentQuestion = questions[questionCount];
+        currentQuestion = questions[questionCount];
+        //add event listeners
+        $beginQuiz.on( "click", beginQuiz );
+
+      })
+    .catch(function(err) {
       console.log("there was an error")
     });   
 
+    // console.log("results from apiCall function: ", apiCall);
 
     var questions = [
       {"category":"Geography","type":"multiple","difficulty":"hard","question":"Which of these countries is NOT a part of the Asian continent?","correct_answer":"Suriname","incorrect_answers":["Georgia","Russia","Singapore"]},
@@ -24,19 +40,9 @@ $(function() {
       {"category":"Entertainment: Musicals & Theatres","type":"multiple","difficulty":"medium","question":"In which Shakespeare play does the character Marcellus say, &quot;Something is rotten in the state of Denmark&quot;?","correct_answer":"Hamlet","incorrect_answers":["Macbeth","King Lear","Twelfth Night"]}
       ]
 
-    var $beginQuiz = $('#beginQuiz');
-    var $question = $('#question');
-    var $answersArea = $('.answersArea');
-    var $questionCounter = $('#questionCounter');
-    var $flashMessage = $('#flashmessage');
-    var $nextQuestion = $('#nextQuestion');
+    
 
      
-    var questionCount = 0;
-    var currentQuestion = {};
-
-     //add event listeners
-     $beginQuiz.on( "click", beginQuiz );
 
      $answersArea.children().each(function(i) { 
        $(this).on("click", checkAnswer)
@@ -50,7 +56,7 @@ $(function() {
      function beginQuiz(){
         // console.log("beginQuiz button clicked");
         // console.log("questions remaining: ", remainingQuestions)
-        currentQuestion = questions[questionCount];
+       
         
         loadQuestion();
         createAnswerArray(currentQuestion);

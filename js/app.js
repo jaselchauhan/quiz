@@ -8,7 +8,7 @@ $(function() {
     //   'Content-Type':'text/plain'
     // });
 
-    fetch('http://opentdb.com/api.php?amount=4', {
+    fetch('https://opentdb.com/api.php?amount=4', {
       method: 'get' 
     }).then(function(response) {
       console.log(response)

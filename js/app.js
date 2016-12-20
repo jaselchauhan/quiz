@@ -1,63 +1,80 @@
 $(function() {
 
-  var $beginQuiz = $('#beginQuiz');
+  //DOM JQUERY VARIABLES
   var $question = $('#question');
   var $answersArea = $('.answersArea');
   var $questionCounter = $('#questionCounter');
   var $flashMessage = $('#flashmessage');
   var $nextQuestion = $('#nextQuestion');
+  var $correctAnswers = $('#correctAnswers');
+  var $categoryForm = $('#categoryForm');
+  var $category = $('#category');
+  var $beginQuiz = $('#beginQuiz');
+  var $restart = $('#restart');
 
-   
+  //GLOBAL VARIABLES
   var questionCount = 0;
   var currentQuestion = {};
   var questions = [];
+  var correctAnswers = 0;
 
-  // $beginQuiz.hide();
+  //API CALL & INITIALIZATION
+  $nextQuestion.hide();
+  $restart.hide();
+  $answersArea.hide();
 
-  fetch('https://opentdb.com/api.php?amount=4')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(results){
-        questions = results.results
-        console.log("question results: ", questions);
-        // $beginQuiz.show(); currentQuestion = questions[questionCount];
-        currentQuestion = questions[questionCount];
-        //add event listeners
-        $beginQuiz.on( "click", beginQuiz );
+  $beginQuiz.on("click", function(){
+    event.preventDefault();
 
-      })
-    .catch(function(err) {
-      console.log("there was an error")
-    });   
 
-    // console.log("results from apiCall function: ", apiCall);
+    //if the question count equals 0 or is equal to the 
 
-    var questions = [
-      {"category":"Geography","type":"multiple","difficulty":"hard","question":"Which of these countries is NOT a part of the Asian continent?","correct_answer":"Suriname","incorrect_answers":["Georgia","Russia","Singapore"]},
-      {"category":"History","type":"multiple","difficulty":"easy","question":"Which one of these tanks was designed and operated by the United Kingdom?","correct_answer":"Tog II","incorrect_answers":["M4 Sherman","Tiger H1","T-34"]},
-      {"category":"Entertainment: Video Games","type":"multiple","difficulty":"easy","question":"Blinky, Pinky, Inky and Clyde are characters from which classic video game?","correct_answer":"Pac-Man","incorrect_answers":["Gauntlet","Space Invaders","Street Fighter"]},
-      {"category":"Entertainment: Musicals & Theatres","type":"multiple","difficulty":"medium","question":"In which Shakespeare play does the character Marcellus say, &quot;Something is rotten in the state of Denmark&quot;?","correct_answer":"Hamlet","incorrect_answers":["Macbeth","King Lear","Twelfth Night"]}
-      ]
+    var urlCategory = $category.val();
+    var url = 'https://opentdb.com/api.php?amount=2&type=multiple&category='+urlCategory
+    console.log(url)
 
+    fetch(url)
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(results){
+          questions = results.results;
+          currentQuestion = questions[questionCount];
+          console.log("question results: ", questions);
+          beginQuiz();
+          $categoryForm.hide();
+          $answersArea.show();
+        })
+      .catch(function(err) {
+        console.log("there was an error getting the questions, try again")
+      });  
     
+  })
 
-     
+   
+
+     //add event listeners
+     $beginQuiz.on( "click", beginQuiz );
 
      $answersArea.children().each(function(i) { 
        $(this).on("click", checkAnswer)
      });
 
-     $nextQuestion.on("click", nextQuestion)
+     $nextQuestion.on("click", nextQuestion);
 
-     $nextQuestion.hide();
+     $restart.on("click", function(){
+      //shows the categoryForm back, and resets the necessary variables for question count, score logic etc.
+      $categoryForm.show();
+      $questionCounter.html('');
+      $correctAnswers.html('');
+      $question.html('');
+      $flashMessage.html('');
+      $restart.hide();
+     });
+
 
 
      function beginQuiz(){
-        // console.log("beginQuiz button clicked");
-        // console.log("questions remaining: ", remainingQuestions)
-       
-        
         loadQuestion();
         createAnswerArray(currentQuestion);
         loadAnswer();
@@ -74,10 +91,14 @@ $(function() {
         if($(this).html() === currentQuestion.correct_answer){
           console.log("you got it correct!")
           $flashMessage.html("you got it correct!");
+          correctAnswers ++;
+          
+          
           // $(this).attr('id', 'correctAnswer');
         } else {
           console.log("sorry you got it wrong, the correct answer is: ", currentQuestion.correct_answer)
           $flashMessage.html("sorry you got it wrong, the correct answer is: " + currentQuestion.correct_answer);
+          
           // $(this).attr('id', 'incorrectAnswer');
         }
           // $flashMessage.delay(1500).fadeOut();
@@ -95,7 +116,7 @@ $(function() {
      function incrementQuestionCount(){
       questionCount ++;
       $questionCounter.html("Questions completed: " + questionCount);
-      currentQuestion = questions[questionCount]
+      currentQuestion = questions[questionCount];
      }
 
      function nextQuestion(){
@@ -105,6 +126,7 @@ $(function() {
         $flashMessage.html('');
 
           incrementQuestionCount();
+          $correctAnswers.html("Correct Answers: " + correctAnswers);
           // console.log(questions[questionCount]);
           loadQuestion();
           createAnswerArray(currentQuestion);
@@ -117,9 +139,13 @@ $(function() {
 
      function gameOver(){
       $flashMessage.html('quiz is over');
-      $question.html('quiz is over you got 4 out 6 correct answers! click below to restart')
+      $questionCounter.html("Questions completed: " + (questionCount+1));
+      $question.html('quiz is over you got ' + correctAnswers + ' out of ' + questions.length + ' correct answers! click below to restart')
+      questionCount = 0;
+      correctAnswers = 0;
       $answersArea.hide()
       $nextQuestion.hide();
+      $restart.show();
      }
 
      function loadQuestion(){

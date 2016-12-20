@@ -5,7 +5,9 @@
     <title></title>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="
+https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
+
     <!-- font awesome icon cdn link -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <!-- custom stylesheets -->
@@ -15,27 +17,49 @@
 
     <div class="container">
 
-      <h1>Welcome to the Quiz</h1>
+      <h1>Quiz</h1>
 
-      <button id="beginQuiz" class="btn btn-lg btn-danger">Begin</button>
+      <form id="categoryForm">
+        <fieldset>
+          <label for="category">Category</label>
+          <select id="category">
+            <option value="9">General Knowledge</option>
+            <option value="27">Animals</option>
+            <option value="25">Art</option>
+            <option value="18">Computers</option>
+            <option value="22">Geography</option>
+            <option value="23">History</option>
+            <option value="19">Mathematics</option>
+            <option value="20">Mythology</option>
+            <option value="24">Politics</option>
+            <option value="21">Sports</option>
+            <option value="17">Science & Nature</option>
+          </select>
+          <button id="beginQuiz" class="button-primary">Start Quiz</button>
+        </fieldset>
+      </form>
 
       <div class="quizArea">
 
-          <h4 id="questionCounter">0</h4>
+          <span id="questionCounter"></span>
+          <span id="correctAnswers"></span>
+
           
-          <h3 id="question">...click start to begin</h3>
+          <h3 id="question"></h3>
 
           <div class="answersArea">
-            <button class="btn btn-lg btn-primary answers" id="1"></button>
-            <button class="btn btn-lg btn-primary answers" id="2"></button>
-            <button class="btn btn-lg btn-primary answers" id="3"></button>
-            <button class="btn btn-lg btn-primary answers" id="4"></button>
+            <button class="button button-outline answers" id="1"></button>
+            <button class="button button-outline answers" id="2"></button>
+            <button class="button button-outline answers" id="3"></button>
+            <button class="button button-outline answers" id="4"></button>
           </div>
 
           <span id="flashmessage"></span>
           <br><br>
 
-          <button class="btn btn-lg btn-success" id="nextQuestion">Next Question</button>
+          <button class="button" id="nextQuestion">Next Question</button>
+          <br>
+          <button class="button" id="restart">Play Another Round?</button>
 
       </div>
 

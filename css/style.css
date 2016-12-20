@@ -1,15 +1,25 @@
+body{
+  background-color: none;
+  text-align:center;
+}
+
+button{
+  margin:7px;
+}
+
+
+#categoryForm{
+  margin-top: 275px;
+}
+
+.quizArea{
+  margin-top: 275px;
+}
+
 #correctAnswer{
   background-color: green !important;
 }
 
 #incorrectAnswer{
   background-color: red !important;
-}
-
-body{
-  background-color: none;
-}
-
-h1{
-  text-align: center;
 }

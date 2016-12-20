@@ -1,5 +1,7 @@
 $(function() {
 
+  console.log(test.message)
+
   //DOM JQUERY VARIABLES
   var $question = $('#question');
   var $answersArea = $('.answersArea');
@@ -11,6 +13,7 @@ $(function() {
   var $category = $('#category');
   var $beginQuiz = $('#beginQuiz');
   var $restart = $('#restart');
+  var $remainingQuestions = $('#remainingQuestions');
 
   //GLOBAL VARIABLES
   var questionCount = 0;
@@ -30,7 +33,7 @@ $(function() {
     //if the question count equals 0 or is equal to the 
 
     var urlCategory = $category.val();
-    var url = 'https://opentdb.com/api.php?amount=2&type=multiple&category='+urlCategory
+    var url = 'https://opentdb.com/api.php?amount=5&type=multiple&category='+urlCategory
     console.log(url)
 
     fetch(url)

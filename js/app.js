@@ -30,9 +30,8 @@ $(function() {
 
   $beginQuiz.on("click", function(){
     event.preventDefault();
-
     var urlCategory = $category.val();
-    var url = 'https://opentdb.com/api.php?amount=5&type=multiple&category='+urlCategory
+    var url = 'https://opentdb.com/api.php?amount=5&type=multiple&category='+urlCategory;
 
     fetch(url)
         .then(function(response) {
@@ -46,7 +45,6 @@ $(function() {
       .catch(function(err) {
         console.log("there was an error getting the questions, try again")
       });  
-    
     })
 
      //EVENT LISTENERS
@@ -141,7 +139,6 @@ $(function() {
 
      function loadAnswer(){
         var answersLength = $answersArea.children().length;
-
         for(var i=0;i<=answersLength;i++){
           $answersArea.children().each(function(i) { 
             $(this).html(currentQuestion.answerArray[i])
@@ -155,8 +152,6 @@ $(function() {
         for(var i=0; i<currentQuestion.incorrect_answers.length; i++){
           answerArray.push(currentQuestion.incorrect_answers[i])
         }
-
-
         answerArray.push(currentQuestion.correct_answer);
         answerArray = randomizeArray(answerArray);
         currentQuestion.answerArray = answerArray

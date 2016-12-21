@@ -14,12 +14,14 @@ $(function() {
   var $beginQuiz          = $('#beginQuiz');
   var $restart            = $('#restart');
   var $remainingQuestions = $('#remainingQuestions');
+  var $title              = $('#title');
 
   //GLOBAL VARIABLES
   var questionCount = 0;
   var currentQuestion = {};
   var questions = [];
   var correctAnswers = 0;
+  var clickCountControl = 0;
 
   //API CALL & INITIALIZATION
   $nextQuestion.hide();
@@ -49,16 +51,12 @@ $(function() {
 
      //EVENT LISTENERS
      $beginQuiz.on("click", beginQuiz );
-
      $answersArea.children().each(function(i) { 
        $(this).on("click", checkAnswer)
      });
-
      $nextQuestion.on("click", nextQuestion);
-
      $restart.on("click", restart);
-
-     
+   
      //MAIN FUNCTIONS
 
      function beginQuiz(){
@@ -67,48 +65,44 @@ $(function() {
      }
 
      function nextQuestion(){
-      if(questionCount + 1 != questions.length){
-        $nextQuestion.hide();
-        $flashMessage.html('');
-        incrementQuestionCount();
-        correctAnswers ++;          
-        $correctAnswers.html("Correct Answers: " + correctAnswers);
+      if(questionCount != questions.length){
+        clickCountControl ++
         loadQuestion();
+        nextQuestionAnimations();
       } else {
         gameOver();
       }
-
+      resetAnimateCSS();
      }
 
-
      function restart(){
-      $categoryForm.show();
-      $questionCounter.html('');
-      $correctAnswers.html('');
-      $question.html('');
-      $flashMessage.html('');
-      $restart.hide();
-      $flashMessage.show();
-      $questionCounter.show();
-      $correctAnswers.show();
+      restartAnimations();
      }
 
     function checkAnswer(){
-        if($(this).html() === currentQuestion.correct_answer){          
-          $flashMessage.html("you got it correct!");          
+        
+        if(questionCount === clickCountControl){
+
+          if($(this).html() === currentQuestion.correct_answer){       
+            $flashMessage.html("you got it correct!");   
+            $(this).addClass("animated rubberBand");
+            incrementQuestionCount(); 
+            incrementCorrectAnswers(); 
+            $correctAnswers.html("Correct Answers: " + correctAnswers);    
+          } else {
+            $flashMessage.html("sorry you got it wrong, the correct answer is: " + currentQuestion.correct_answer);
+            $correctAnswers.html("Correct Answers: " + correctAnswers);
+            $(this).addClass("animated shake");
+            incrementQuestionCount();
+          }   
+          $nextQuestion.show();
         } else {
-          $flashMessage.html("sorry you got it wrong, the correct answer is: " + currentQuestion.correct_answer);
-        }   
-        $nextQuestion.show();
+         $flashMessage.html("you've already answered this question");
+        }    
+        
     } 
      
     //HELPER FUNCTIONS
-
-    function beginAnimations(){
-     $categoryForm.hide();
-     $question.show();
-     $answersArea.delay(500).fadeIn();
-    }
 
      function incrementQuestionCount(){
       questionCount ++;
@@ -116,15 +110,24 @@ $(function() {
       currentQuestion = questions[questionCount];
      }
 
+     function incrementCorrectAnswers(){
+        correctAnswers ++;          
+     }
      
 
      function gameOver(){
-      $flashMessage.hide();
-      $questionCounter.hide();
-      $correctAnswers.hide();
       $question.html('quiz is over you got ' + correctAnswers + ' out of ' + questions.length + ' correct answers!')
       questionCount = 0;
       correctAnswers = 0;
+      clickCountControl=0;
+      gameOverAnimations();
+      
+     }
+
+     function gameOverAnimations(){
+      $flashMessage.hide();
+      $questionCounter.hide();
+      $correctAnswers.hide();
       $answersArea.hide()
       $nextQuestion.hide();
       $restart.show();
@@ -177,6 +180,36 @@ $(function() {
        }
 
        return array;
+     }
+
+     function beginAnimations(){
+      $categoryForm.hide();
+      $question.show();
+      $answersArea.delay(500).fadeIn();
+     }
+
+     function nextQuestionAnimations(){
+      $nextQuestion.hide();
+      $flashMessage.html('');
+     }
+
+     function restartAnimations(){
+      $categoryForm.show();
+      $questionCounter.html('');
+      $correctAnswers.html('');
+      $question.html('');
+      $flashMessage.html('');
+      $restart.hide();
+      $flashMessage.show();
+      $questionCounter.show();
+      $correctAnswers.show();
+     }
+
+     function resetAnimateCSS(){
+      $answersArea.children().each(function(i){
+        $(this).removeClass("animated rubberBand shake")
+      })
+
      }
 
 });

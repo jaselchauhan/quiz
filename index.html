@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
     <!-- bootstrap css -->
     <link rel="stylesheet" href="
 https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
 
     <!-- font awesome icon cdn link -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -15,13 +17,15 @@ https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
   </head>
   <body>
 
+  <a href="https://github.com/jaselchauhan"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
     <div class="container">
 
       <h1>Quiz</h1>
 
+
       <form id="categoryForm">
         <fieldset>
-          <label for="category">Category</label>
           <select id="category">
             <option value="9">General Knowledge</option>
             <option value="27">Animals</option>
@@ -39,7 +43,7 @@ https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
         </fieldset>
       </form>
 
-      <div class="quizArea">
+      <div id="quizArea">
 
           <span id="questionCounter"></span>
           <span id="remainingQuestions"></span>
@@ -62,16 +66,15 @@ https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
           <br>
           <button class="button" id="restart">Play Another Round?</button>
 
-      </div>
-
+      
     </div>
-
+    </div>
+    <footer>powered by the <span><a href="https://opentdb.com/">Open Trivia Database</a></span>. developed by <span><a href="http://www.jaselchauhan.com">Jasel Chauhan</a></span></footer>
   <!-- jQuery cdn script -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
   <!-- bootstrap js -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <!-- custom javascript -->
   <script type="text/javascript" src="/js/app.js"></script>
-  <script type="text/javascript" src="/js/testfile.js"></script>
   </body>
 </html>

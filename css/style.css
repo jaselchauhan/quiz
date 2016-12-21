@@ -7,12 +7,26 @@ button{
   margin:7px;
 }
 
+footer{
+  position:absolute;
+  width:600px;
+  height:75px;
+  bottom:0px;
+  right:25%;
+  left:50%;
+  margin-left:-300px;
+
+}
+
+#category{
+  width:50%;
+}
 
 #categoryForm{
   margin-top: 275px;
 }
 
-.quizArea{
+#quizArea{
   margin-top: 275px;
 }
 
@@ -23,3 +37,4 @@ button{
 #incorrectAnswer{
   background-color: red !important;
 }
+ 
